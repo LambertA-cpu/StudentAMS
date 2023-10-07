@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <!-- <?php
+    session_start();
+    if (isset($_SESSION['login_error'])) {
+        $message = $_SESSION['login_error'];
+        echo '<p>' . $message . '</p>';
+        unset($_SESSION['login_error']); // Clear the error message
+    }
+    ?> -->
+    <form action="login.php" method="POST">
+        <!-- Your login form fields here -->
+        <label for="admin_id">Admin ID:</label>
+        <input type="text" id="admin_id" name="admin_id" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
