@@ -2,6 +2,8 @@
 require 'vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
+use Kreait\Firebase\Auth;
+
 try {
     // Connect to the database
     $db = new PDO('mysql:host=localhost;dbname=students', 'root', '');
@@ -34,26 +36,46 @@ try {
     if (!$stmt) {
         throw new Exception("No student found with ID: " . $student_id);
     }
-        // Initialize Firebase
-        $factory = (new Factory)
+
+    // Initialize Firebase
+    $factory = (new Factory)
         ->withServiceAccount(__DIR__.'/google-service.json') // Use a relative path
         ->withDatabaseUri('https://campuspoints-e80de-default-rtdb.firebaseio.com/'); // Firebase Realtime Database URL
 
+    // Update the student data in Firebase
     $database = $factory->createDatabase();
+    $reference = $database->getReference('/users/' . $student_id);
+    $reference->update([
+        'student_name' => $student_name,
+        'email' => $email,
+        'password' => $password,
+    ]);
 
- // Update the student data in Firebase
- $reference = $database->getReference('/users/' . $student_id);
- $reference->update([
-     'student_name' => $student_name,
-     'email' => $email,
-     'password' => $password,
- ]);
+    // Initialize Firebase Authentication
+    $auth = $factory->createAuth();
 
- // Redirect to the student list page
- header('Location: student_list.php');
- exit();
+    // Check if the student already exists in Firebase
+    try {
+        $existingUser = $auth->getUserByEmail($email);
+        // User exists, update their information if needed
+        $uid = $existingUser->uid;
+        $auth->updateUser($uid, [
+            'displayName' => $student_name,
+        ]);
+    } catch (Kreait\Firebase\Exception\Auth\UserNotFound $e) {
+        // User doesn't exist, create a new Firebase user
+        $newUser = $auth->createUser([
+            'email' => $email,
+            'password' => $password,
+            'displayName' => $student_name,
+        ]);
+    }
+
+    // Redirect to the student list page
+    header('Location: student_list.php');
+    exit();
 } catch (Exception $e) {
- // Handle exceptions (e.g., database errors, missing studentID)
- echo "Error: " . $e->getMessage();
+    // Handle exceptions (e.g., database errors, missing studentID)
+    echo "Error: " . $e->getMessage();
 }
 ?>
