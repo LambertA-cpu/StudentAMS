@@ -31,6 +31,7 @@ function createFirebaseUser($auth, $student) {
                 'password' => $password,
                 'displayName' => $student['student_name'],
             ]);
+
             echo 'Firebase user created with email: ' . $email;
         }
     } catch (Kreait\Firebase\Exception\Auth\UserNotFound $e) {
