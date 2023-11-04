@@ -77,6 +77,7 @@ $students = $stmt->fetchAll();
 <html>
 <head>
     <title>Student List</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
@@ -99,7 +100,7 @@ $students = $stmt->fetchAll();
                 <td><?php echo $student['email']; ?></td>
                 <td><?php echo $student['password']; ?></td>
                 <td>
-                    <button><a href="edit_studentForm.php?studentID=<?php echo $student['studentID']; ?>">EDIT</a></button>
+                    <button class= .button-3><a href="edit_studentForm.php?studentID=<?php echo $student['studentID']; ?>">EDIT</a></button>
                     <?php
                     // Create a Firebase user for each student
                     $firebaseUser = createFirebaseUser($auth, $student);

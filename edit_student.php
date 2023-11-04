@@ -23,6 +23,37 @@ try {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // Initialize Firebase
+    $factory = (new Factory)
+        ->withServiceAccount(__DIR__.'/google-service.json') // Use a relative path
+        ->withDatabaseUri('https://campuspoints-e80de-default-rtdb.firebaseio.com/'); // Firebase Realtime Database URL
+
+    // Initialize Firebase Authentication
+    $auth = $factory->createAuth();
+
+    // Get the user by email
+    $user = $auth->getUserByEmail($email);
+
+    if ($user) {
+        $uid = $user->uid;
+
+        // Update the student data in Firebase
+        $database = $factory->createDatabase();
+        $reference = $database->getReference('/users/' . $uid . '/student/' . $student_id);
+        $reference->update([
+            'student_name' => $student_name,
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        // Update the Firebase user's display name
+        $auth->updateUser($uid, [
+            'displayName' => $student_name,
+        ]);
+    } else {
+        throw new Exception("Firebase user not found with email: " . $email);
+    }
+
     // Update the student data in the database
     $sql = "UPDATE student SET student_name = ?, email = ?, password = ? WHERE studentID = ?";
     $stmt = $db->prepare($sql);
@@ -37,40 +68,6 @@ try {
         throw new Exception("No student found with ID: " . $student_id);
     }
 
-    // Initialize Firebase
-    $factory = (new Factory)
-        ->withServiceAccount(__DIR__.'/google-service.json') // Use a relative path
-        ->withDatabaseUri('https://campuspoints-e80de-default-rtdb.firebaseio.com/'); // Firebase Realtime Database URL
-
-    // Update the student data in Firebase
-    $database = $factory->createDatabase();
-    $reference = $database->getReference('/users/' . $student_id);
-    $reference->update([
-        'student_name' => $student_name,
-        'email' => $email,
-        'password' => $password,
-    ]);
-
-    // Initialize Firebase Authentication
-    $auth = $factory->createAuth();
-
-    // Check if the student already exists in Firebase
-    try {
-        $existingUser = $auth->getUserByEmail($email);
-        // User exists, update their information if needed
-        $uid = $existingUser->uid;
-        $auth->updateUser($uid, [
-            'displayName' => $student_name,
-        ]);
-    } catch (Kreait\Firebase\Exception\Auth\UserNotFound $e) {
-        // User doesn't exist, create a new Firebase user
-        $newUser = $auth->createUser([
-            'email' => $email,
-            'password' => $password,
-            'displayName' => $student_name,
-        ]);
-    }
-
     // Redirect to the student list page
     header('Location: student_list.php');
     exit();
@@ -78,4 +75,5 @@ try {
     // Handle exceptions (e.g., database errors, missing studentID)
     echo "Error: " . $e->getMessage();
 }
+
 ?>

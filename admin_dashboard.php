@@ -21,21 +21,25 @@ if (!isset($_SESSION['admin_id'])) {
 
 <!DOCTYPE html>
 <html>
-<head>
 <title>Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+    <script src="bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+    <h1>Admin Dashboard</h1>
 
-<h1>Admin Dashboard</h1>
+    <p>Welcome, <?php echo $_SESSION['admin_id']; ?>!</p>
 
-<p>Welcome, <?php echo $_SESSION['admin_id']; ?>!</p>
-
-<ul>
-<li><a href="student_form.html">Add Student</a></li>
-<li><a href="student_list.php">View Students</a></li>
-<li><a href="unit_form.php">Register unit</a></li>
-<li><a href="student_units.php">View Students Units</a></li>
-</ul>
-
+    <div id="mySidenav" class="sidenav">
+        <ul>
+            <li><a href="student_form.html">Add Student</a></li>
+            <li><a href="student_list.php">View Students</a></li>
+            <li><a href="unit_form.php">Register unit</a></li>
+            <li><a href="student_units.php">View Students Units</a></li>
+        </ul>
+    </div>
 </body>
 </html>

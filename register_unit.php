@@ -86,26 +86,40 @@
                         echo "<td>Edit</td>"; 
 
                         // Fetch student_name from the student table using studentID
-                        $studentQuery = "SELECT student_name FROM student WHERE studentID = " . $row["studentID"];
+                        $studentQuery = "SELECT studentID, student_name, email FROM student WHERE studentID = " . $row["studentID"];
                         $studentResult = $conn->query($studentQuery);
                         $studentData = $studentResult->fetch_assoc();
 
-                        // Store the unit data in Firebase along with student_name
+                        // //Store the unit data in Firebase along with student_name
+                        // $studentData = [
+                        //     'studentID' => $row["studentID"],
+                        //     'student_name' => $row['student_name'],
+                        //     'student_email' => $row['email'],
+                        // ];
                         $unitData = [
-                            'studentID' => $row["studentID"],
-                            'student_name' => $studentData['student_name'], // Include student_name
+                            'attendance' => $row["attendance"],
+                            'grades' => $row["grades"],
                             'semester' => $row["semester"],
                             'unitID' => $row["unitID"],
-                            'unit_name' => $row["unit_name"],
-                            'grades' => $row["grades"],
-                            'attendance' => $row["attendance"],
+                            'unit_name' => $row["unit_name"]
                         ];
-
+                        
                         // Store the unit data under the student's ID in Firebase
-                        $reference = $database->getReference('/users/' . $uid . '/' . $row["studentID"] . '/' . $studentData['student_name']. '/units/' . $row["unitID"]);
+                        $reference = $database->getReference('/users/' . $uid . '/units/'. $row["unitID"]);
                         $reference->set($unitData);
-
+                        
+                        // Store student data under the user's UID
+                        $studentData = [
+                            'studentID' => $studentData["studentID"],
+                            'student_name' => $studentData["student_name"],
+                            'email' => $studentData["email"]
+                        ];
+                        
+                        $studentReference = $database->getReference('/users/' . $uid . '/student/');
+                        $studentReference->set($studentData);
+                        
                         echo "</tr>";
+                        
                     }
 
                 } else {

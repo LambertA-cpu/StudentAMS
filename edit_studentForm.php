@@ -34,13 +34,17 @@ if (isset($_GET['studentID']) && !empty($_GET['studentID'])) {
             <input type="password" name="password" value="' . $student['password'] . '" placeholder="Password">
             <button type="submit">Update Student</button>
         </form>';
+
+
+        
     } else {
         echo 'Student not found.';
     }
 } else {
     echo 'No studentID provided in the URL.';
 }
-?>
+
+?><br><a href="delete_student.php?studentID=<?php echo $student['studentID']; ?>"><button>Delete</button></a>
 
 </body>
 </html>
