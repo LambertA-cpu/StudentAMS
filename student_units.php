@@ -54,25 +54,33 @@ $students = $dataRef->getValue();
 <html>
 <head>
     <title>Student List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Student Academic</h1>
+    
 
     <!-- Add a form to submit new academic data -->
-    <form method="POST">
-        <label for="subject">Subject:</label>
-        <input type="text" name="subject" required><br>
-
-        <label for="grade">Grade:</label>
-        <input type="text" name="grade" required><br>
-
-        <label for="attendance">Attendance:</label>
-        <input type="text" name="attendance" required><br>
-
-        <input type="submit" value="Add Data">
+    <form method="POST" style="margin:auto; width: 500px; height:400px;">
+        <h1 class="display-6">Add Academic Data</h1>
+        <div class="mb-3">
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="grade">Grade:</label>
+            <input type="text" name="grade" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="attendance">Attendance:</label>
+            <input type="text" name="attendance" class="form-control" required>
+        </div>
+        <div class="d-grid gap-2">
+            <input type="submit" class="btn btn-primary" value="Add Data">
+        </div>
     </form>
 
-    <table border="1">
+    <table border="1" class="table">
         <tr>
             <th>Student ID</th>
             <th>Subject</th>
@@ -98,5 +106,8 @@ $students = $dataRef->getValue();
         <?php endif; ?>
 
     </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>
