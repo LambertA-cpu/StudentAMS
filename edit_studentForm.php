@@ -36,14 +36,14 @@ if (isset($_GET['studentID']) && !empty($_GET['studentID'])) {
             </div>
             <div class="mb-3">
                 <label for="student_name">Student Name:</label>
-                <input type="text" name="student_name" value="' . $student['student_name'] . '" placeholder="Student Name">
+                <input type="text" name="student_name" class="form-control" value="' . $student['student_name'] . '" placeholder="Student Name">
             </div>
             <div class="mb-3">
                 <label for="email">Email address:</label>
-                <input type="email" name="email" value="' . $student['email'] . '" placeholder="Email">
+                <input type="email" name="email" class="form-control" value="' . $student['email'] . '" placeholder="Email">
             <div class="mb-3">
                 <label for="password">Password:</label>
-                <input type="password" name="password" value="' . $student['password'] . '" placeholder="Password">
+                <input type="password" name="password" class="form-control" value="' . $student['password'] . '" placeholder="Password">
             </div>
             <div class="d-grid gap-2">
                 <button class="btn btn-primary" type="submit">Update Student</button>
