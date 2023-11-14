@@ -77,45 +77,52 @@ $students = $stmt->fetchAll();
 <html>
 <head>
     <title>Student List</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
 
-<h1>Student List</h1>
+<div style="margin:2% auto; margin-left:2%; margin-right:2%">
+    <h1 class="display-6">Student List</h1>
 
-<table border="1">
-    <tr>
-        <th>Student ID</th>
-        <th>Student Name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Function</th>
-    </tr>
-
-    <?php if ($students): ?>
-        <?php foreach ($students as $student): ?>
-            <tr>
-                <td><?php echo $student['studentID']; ?></td>
-                <td><?php echo $student['student_name']; ?></td>
-                <td><?php echo $student['email']; ?></td>
-                <td><?php echo $student['password']; ?></td>
-                <td>
-                    <button class= .button-3><a href="edit_studentForm.php?studentID=<?php echo $student['studentID']; ?>">EDIT</a></button>
-                    <?php
-                    // Create a Firebase user for each student
-                    $firebaseUser = createFirebaseUser($auth, $student);
-                    if ($firebaseUser) {
-                        echo '<div>Firebase UID: ' . $firebaseUser->uid . '</div>';
-                    }
-                    ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
+    <table border="1" class="table">
         <tr>
-            <td colspan="5">No students found.</td>
+            <th scope="col">Student ID</th>
+            <th scope="col">Student Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+            <th scope="col">Function</th>
         </tr>
-    <?php endif; ?>
-</table>
+
+        <?php if ($students): ?>
+            <?php foreach ($students as $student): ?>
+                <tr>
+                    <td><?php echo $student['studentID']; ?></td>
+                    <td><?php echo $student['student_name']; ?></td>
+                    <td><?php echo $student['email']; ?></td>
+                    <td><?php echo $student['password']; ?></td>
+                    <td>
+                        <button class= .button-3><a href="edit_studentForm.php?studentID=<?php echo $student['studentID']; ?>">EDIT</a></button>
+                        <?php
+                        // Create a Firebase user for each student
+                        $firebaseUser = createFirebaseUser($auth, $student);
+                        if ($firebaseUser) {
+                            echo '<div>Firebase UID: ' . $firebaseUser->uid . '</div>';
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5">No students found.</td>
+            </tr>
+        <?php endif; ?>
+    </table>
+</div>
+<!-- scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>
